@@ -1,0 +1,17 @@
+<div cdkDropListGroup class="ngx-dragdrop-container">
+  <div cdkDropList #placeholder
+       [cdkDropListDisabled]="!draggable"
+       (cdkDropListDropped)="dropListDropped()"
+       [cdkDropListEnterPredicate]="dropListEnterPredicate"
+      >
+  </div>
+  <div cdkDropList
+       *ngFor="let item of items" class="ngx-dragdrop-item"
+       [cdkDropListEnterPredicate]="dropListEnterPredicate"
+       (cdkDropListDropped)="dropListDropped()"
+  >
+    <div cdkDrag (cdkDragMoved)="dragMoved($event)" class="sam-drag-container">
+      <ng-container ngxDragDropContentOutlet></ng-container>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,6 @@
-<div class="example-container" cdkDropListGroup>
-  <div cdkDropList [cdkDropListEnterPredicate]="dropListEnterPredicate" (cdkDropListDropped)="dropListDropped()"></div>
-  <div cdkDropList *ngFor="let item of items"
-       [cdkDropListEnterPredicate]="dropListEnterPredicate" (cdkDropListDropped)="dropListDropped()">
-    <div cdkDrag class="example-box" (cdkDragMoved)="dragMoved($event);">{{item}}</div>
+<ngx-dragdrop-grid [items]="items">
+  <div *ngxDragAndDropListData="let listItem; let i=index" class="example-box">
+    {{listItem}}
   </div>
-</div>
+</ngx-dragdrop-grid>
+

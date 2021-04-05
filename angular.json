@@ -28,7 +28,8 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "node_modules/ng-sortgrid/styles/ngsg.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -121,6 +122,46 @@
             "production": {
               "devServerTarget": "ngx-dragdrop-grid:serve:production"
             }
+          }
+        }
+      }
+    },
+    "@zvs/ngx-dragdrop-grid": {
+      "projectType": "library",
+      "root": "projects/ngx-dragdrop-grid",
+      "sourceRoot": "projects/ngx-dragdrop-grid/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-dragdrop-grid/tsconfig.lib.json",
+            "project": "projects/ngx-dragdrop-grid/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-dragdrop-grid/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-dragdrop-grid/src/test.ts",
+            "tsConfig": "projects/ngx-dragdrop-grid/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-dragdrop-grid/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-dragdrop-grid/tsconfig.lib.json",
+              "projects/ngx-dragdrop-grid/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

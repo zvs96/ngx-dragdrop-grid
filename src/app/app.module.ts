@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// @ts-ignore
+import { NgxDragdropGridModule } from '@zvs/ngx-dragdrop-grid';
 
-import {AppComponent} from './app.component';
-import {DragDropPresenter} from './drag-drop';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
@@ -13,9 +13,8 @@ import {DragDropPresenter} from './drag-drop';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    DragDropModule,
+    NgxDragdropGridModule
   ],
-  providers: [DragDropPresenter],
   bootstrap: [AppComponent]
 })
 export class AppModule {

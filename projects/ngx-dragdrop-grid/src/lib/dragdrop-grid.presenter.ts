@@ -1,12 +1,10 @@
-import {Injectable} from '@angular/core';
-import {CdkDrag, CdkDragMove, CdkDropList, CdkDropListGroup, moveItemInArray} from '@angular/cdk/drag-drop';
-import {ViewportRuler} from '@angular/cdk/overlay';
-import {ReplaySubject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { CdkDrag, CdkDragMove, CdkDropList, CdkDropListGroup, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ViewportRuler } from '@angular/cdk/overlay';
+import { ReplaySubject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'any',
-})
-export class DragDropPresenter {
+@Injectable()
+export class NgxDragdropGridPresenter {
 
   items: any[];
   reorderChanges = new ReplaySubject<any[]>(1);
@@ -27,7 +25,11 @@ export class DragDropPresenter {
     this.source = null;
   }
 
-  init(listGroup: CdkDropListGroup<CdkDropList>, placeholder: CdkDropList) {
+  afterViewInit(listGroup: CdkDropListGroup<CdkDropList>, placeholder: CdkDropList) {
+    if (!placeholder?.element?.nativeElement) {
+      return;
+    }
+
     this.listGroup = listGroup;
     this.placeholder = placeholder;
     const phElement = this.placeholder.element.nativeElement;
@@ -41,6 +43,7 @@ export class DragDropPresenter {
 
   dragMoved(e: CdkDragMove): void {
     const point = this.getPointerPositionOnPage(e.event);
+
     this.listGroup._items.forEach(dropList => {
       if (this._isInsideDropListClientRect(dropList, point.x, point.y)) {
         this.activeContainer = dropList;

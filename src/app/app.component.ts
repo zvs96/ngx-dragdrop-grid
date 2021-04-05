@@ -1,12 +1,13 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {CdkDragMove, CdkDropList, CdkDropListGroup} from '@angular/cdk/drag-drop';
-
-import {DragDropPresenter} from './drag-drop';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { CdkDragMove, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
+// @ts-ignore
+import { NgxDragdropGridPresenter } from '@zvs/ngx-dragdrop-grid';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [NgxDragdropGridPresenter]
 })
 export class AppComponent implements AfterViewInit {
 
@@ -18,16 +19,15 @@ export class AppComponent implements AfterViewInit {
   dropListEnterPredicate = this.dragDropPresenter.dropListEnterPredicate;
 
   constructor(
-    private dragDropPresenter: DragDropPresenter
+    private dragDropPresenter: NgxDragdropGridPresenter
   ) {
   }
 
   ngAfterViewInit(): void {
-    this.dragDropPresenter.init(this.listGroup, this.placeholder);
-
     this.dragDropPresenter.setItems(this.items);
+    this.dragDropPresenter.afterViewInit(this.listGroup, this.placeholder);
 
-    this.dragDropPresenter.reorderChanges.subscribe(changes => console.log('[Changes] ', changes));
+    // this.dragDropPresenter.reorderChanges.subscribe(changes => console.log('[Changes] ', changes));
   }
 
   dropListDropped() {
