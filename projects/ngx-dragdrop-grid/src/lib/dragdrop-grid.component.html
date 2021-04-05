@@ -6,11 +6,15 @@
       >
   </div>
   <div cdkDropList
-       *ngFor="let item of items" class="ngx-dragdrop-item"
+       *ngFor="let item of items; trackBy: dataTrackByFn" class="ngx-dragdrop-item"
        [cdkDropListEnterPredicate]="dropListEnterPredicate"
        (cdkDropListDropped)="dropListDropped()"
   >
-    <div cdkDrag (cdkDragMoved)="dragMoved($event)" class="sam-drag-container">
+    <div cdkDrag
+         class="ngx-drag-container"
+         [cdkDragStartDelay]="delay"
+         (cdkDragMoved)="dragMoved($event)"
+    >
       <ng-container ngxDragDropContentOutlet></ng-container>
     </div>
   </div>

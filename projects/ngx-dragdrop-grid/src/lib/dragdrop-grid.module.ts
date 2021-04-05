@@ -3,24 +3,22 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgxDragdropGridPresenter } from './dragdrop-grid.presenter';
-import {
-  NgxDragAndDropListDataDirective,
-  NgxDragDropContentOutletDirective,
-  NgxDragdropGridComponent
-} from './dragdrop-grid.component';
+import {  NgxDragdropGridComponent} from './dragdrop-grid.component';
+import { NgxDragAndDropListDirective } from './drag-and-drop-list.directive';
+import { NgxDragAndDropContentOutletDirective } from './drag-and-drop-content-outlet.directive';
 
 @NgModule({
   declarations: [
     NgxDragdropGridComponent,
-    NgxDragAndDropListDataDirective,
-    NgxDragDropContentOutletDirective
+    NgxDragAndDropListDirective,
+    NgxDragAndDropContentOutletDirective
   ],
   imports: [CommonModule, DragDropModule],
   exports: [
     DragDropModule,
     NgxDragdropGridComponent,
-    NgxDragAndDropListDataDirective,
-    NgxDragDropContentOutletDirective
+    NgxDragAndDropListDirective,
+    NgxDragAndDropContentOutletDirective
   ],
   providers: [NgxDragdropGridPresenter],
 })

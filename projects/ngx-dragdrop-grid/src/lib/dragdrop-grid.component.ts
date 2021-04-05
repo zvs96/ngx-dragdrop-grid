@@ -3,50 +3,49 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  Directive,
+  EventEmitter,
   Input,
-  OnChanges,
-  OnInit,
+  OnChanges, OnDestroy,
+  OnInit, Output,
   QueryList,
   SimpleChanges,
-  TemplateRef,
   ViewChild,
   ViewChildren,
-  ViewContainerRef
 } from '@angular/core';
 import { CdkDragMove, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { NgxDragdropGridPresenter } from './dragdrop-grid.presenter';
+import { NgxDragAndDropListDirective } from './drag-and-drop-list.directive';
+import { NgxDragAndDropContentOutletDirective } from './drag-and-drop-content-outlet.directive';
 
-@Directive({selector: '[ngxDragAndDropListData]'})
-export class NgxDragAndDropListDataDirective {
-  constructor(public template: TemplateRef<any>) {
-  }
-}
-
-@Directive({selector: '[ngxDragDropContentOutlet]'})
-export class NgxDragDropContentOutletDirective {
-  constructor(public viewContainer: ViewContainerRef) {
-  }
-}
 
 @Component({
   selector: 'ngx-dragdrop-grid',
   templateUrl: './dragdrop-grid.component.html',
   styleUrls: ['./dragdrop-grid.component.scss'],
 })
-export class NgxDragdropGridComponent implements OnInit, OnChanges, AfterViewInit {
+export class NgxDragdropGridComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
-  @ViewChildren(NgxDragDropContentOutletDirective) contentOutlet: QueryList<NgxDragDropContentOutletDirective>;
-  @ContentChildren(NgxDragAndDropListDataDirective) dragAndDropListData: QueryList<NgxDragAndDropListDataDirective>;
+  @ViewChildren(NgxDragAndDropContentOutletDirective) contentOutlet: QueryList<NgxDragAndDropContentOutletDirective>;
+  @ContentChildren(NgxDragAndDropListDirective) dragAndDropListData: QueryList<NgxDragAndDropListDirective>;
 
   @ViewChild(CdkDropListGroup, {static: true}) listGroup: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList, {static: true}) placeholder: CdkDropList;
 
-  @Input() aspectRatio = 1;
+  @Input() delay: number;
   @Input() draggable: boolean;
-  @Input() items = [1, 2];
+  @Input() items: any[] = [];
+
+  @Output() sorting = new EventEmitter<any[]>();
+
+  private destroyed = new Subject();
 
   dropListEnterPredicate = this.dragDropPresenter.dropListEnterPredicate;
+
+  // used by *ngFor for better rendering
+  dataTrackByFn = (index: number, entity: Partial<any>) => entity?._id || entity?.id || index;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -55,6 +54,9 @@ export class NgxDragdropGridComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngOnInit(): void {
+    this.dragDropPresenter.reorderChanges.pipe(takeUntil(this.destroyed)).subscribe((data) => {
+      this.sorting.emit(data);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -66,6 +68,11 @@ export class NgxDragdropGridComponent implements OnInit, OnChanges, AfterViewIni
     this.dragDropPresenter.afterViewInit(this.listGroup, this.placeholder);
   }
 
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
   public renderItems() {
     if (!this.contentOutlet) {
       return;
@@ -73,7 +80,7 @@ export class NgxDragdropGridComponent implements OnInit, OnChanges, AfterViewIni
 
     this.cdr.detectChanges();
 
-    this.contentOutlet.toArray().forEach((outlet: NgxDragDropContentOutletDirective, index: number) => {
+    this.contentOutlet.toArray().forEach((outlet: NgxDragAndDropContentOutletDirective, index: number) => {
       outlet.viewContainer.clear();
       outlet.viewContainer.createEmbeddedView(
         this.dragAndDropListData.first.template, {
