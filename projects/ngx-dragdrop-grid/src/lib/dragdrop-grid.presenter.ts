@@ -6,7 +6,7 @@ import { ReplaySubject } from 'rxjs';
 @Injectable()
 export class NgxDragdropGridPresenter {
 
-  items: any[];
+  items: any[] = [];
   reorderChanges = new ReplaySubject<any[]>(1);
 
   listGroup: CdkDropListGroup<CdkDropList>;

@@ -5,8 +5,10 @@ import {
   ContentChildren,
   EventEmitter,
   Input,
-  OnChanges, OnDestroy,
-  OnInit, Output,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
   QueryList,
   SimpleChanges,
   ViewChild,
@@ -35,8 +37,16 @@ export class NgxDragdropGridComponent implements OnInit, OnChanges, AfterViewIni
   @ViewChild(CdkDropList, {static: true}) placeholder: CdkDropList;
 
   @Input() delay: number;
-  @Input() draggable: boolean;
-  @Input() items: any[] = [];
+  @Input() draggable = true;
+
+  @Input()
+  set items(items: any[]) {
+    this.dragDropPresenter.setItems(items);
+  }
+
+  get items() {
+    return this.dragDropPresenter.items;
+  }
 
   @Output() sorting = new EventEmitter<any[]>();
 
