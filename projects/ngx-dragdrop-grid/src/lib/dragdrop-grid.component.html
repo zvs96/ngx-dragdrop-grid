@@ -1,17 +1,19 @@
 <div cdkDropListGroup class="ngx-dragdrop-container">
-  <div cdkDropList #placeholder
+  <div cdkDropList
        [cdkDropListDisabled]="!draggable"
        (cdkDropListDropped)="dropListDropped()"
        [cdkDropListEnterPredicate]="dropListEnterPredicate"
       >
   </div>
   <div cdkDropList
-       *ngFor="let item of items; trackBy: dataTrackByFn" class="ngx-dragdrop-item"
+       *ngFor="let item of items; trackBy: trackBy" class="ngx-dragdrop-item"
        [cdkDropListEnterPredicate]="dropListEnterPredicate"
+       [cdkDropListDisabled]="!draggable"
        (cdkDropListDropped)="dropListDropped()"
   >
     <div cdkDrag
          class="ngx-drag-container"
+         [cdkDragDisabled]="!draggable"
          [cdkDragStartDelay]="delay"
          (cdkDragMoved)="dragMoved($event)"
     >

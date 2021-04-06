@@ -1,5 +1,10 @@
-<ngx-dragdrop-grid [items]="items">
-  <div *ngxDragAndDropListData="let listItem; let i=index" class="example-box">
+<ngx-dragdrop-grid
+    [items]="items | async"
+    (sorting)="sorting($event)"
+    [trackBy]="dataTrackByFn"
+    class="gallery-group-list"
+>
+  <div *ngxDragAndDropList="let listItem; let i=index" class="example-box">
     {{listItem}}
   </div>
 </ngx-dragdrop-grid>

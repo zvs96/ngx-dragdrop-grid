@@ -1,16 +1,10 @@
-.ngx-dragdrop-item {
-  // ...styles
-}
-
-.ngx-drag-container {
-
-}
-
 .cdk-drag-placeholder {
   opacity: .3;
 }
 
 .cdk-drag-preview {
+  width: inherit;
+  height: inherit;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),

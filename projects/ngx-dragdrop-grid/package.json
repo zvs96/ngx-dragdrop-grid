@@ -1,6 +1,6 @@
 {
   "name": "@zvs96/ngx-dragdrop-grid",
-  "version": "1.0.0-next.6",
+  "version": "1.0.0-beta.7",
   "author": "Zaven <zvsargsyan@gmail.com>",
   "peerDependencies": {
     "@angular/common": "<=12.0.0",
